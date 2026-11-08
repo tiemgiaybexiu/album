@@ -3,357 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tiệm giày Bé Xíu</title>
+    <title>Tiệm giày Bé Xíu - Giày 2hand</title>
+    <!-- Thêm font chữ cao cấp Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        ig: { text: '#262626', link: '#00376b', border: '#dbdbdb', gray: '#8e8e8e', bg: '#fafafa' }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* Ẩn thanh cuộn nhưng vẫn cuộn được */
+        body { background-color: #fafafa; color: #262626; -webkit-tap-highlight-color: transparent; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Hiệu ứng Toast Thông báo */
+        /* Viền Story kiểu Instagram */
+        .story-ring-active {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            padding: 2.5px;
+            border-radius: 50%;
+        }
+        .story-ring-inactive {
+            background: #dbdbdb;
+            padding: 1.5px;
+            border-radius: 50%;
+        }
+
         #toast {
-            visibility: hidden; min-width: 250px; background-color: #333; color: #fff;
-            text-align: center; border-radius: 8px; padding: 16px; position: fixed;
-            z-index: 9999; left: 50%; transform: translateX(-50%); top: 30px; font-size: 15px;
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.15); opacity: 0; transition: opacity 0.3s, top 0.3s;
+            visibility: hidden; min-width: 250px; background-color: #262626; color: #fff;
+            text-align: center; border-radius: 8px; padding: 12px 20px; position: fixed;
+            z-index: 9999; left: 50%; transform: translateX(-50%); top: 30px; font-size: 13px; font-weight: 600;
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.15); opacity: 0; transition: opacity 0.3s, top 0.3s;
         }
         #toast.show { visibility: visible; top: 50px; opacity: 1; }
-        
-        /* Zoom ảnh khi hover PC */
-        .zoom-img-container { overflow: hidden; }
-        .zoom-img-container img { transition: transform 0.3s ease; }
-        .zoom-img-container:hover img { transform: scale(1.1); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 pb-20">
+<body class="pb-20">
 
-    <!-- Header Hồ sơ kiểu Instagram (Đã được làm gọn và bỏ Sticky) -->
-    <header class="bg-white pt-4 pb-3 px-4 border-b border-gray-100">
-        <div class="max-w-2xl mx-auto flex flex-col items-center text-center">
-            <!-- Avatar -->
-            <div class="relative w-16 h-16 md:w-20 md:h-20 rounded-full p-0.5 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 mb-2 shrink-0">
-                <img src="https://i.ibb.co/svCGqf0w/Gemini-Generated-Image-5b2r4l5b2r4l5b2r.png" alt="Avatar" class="w-full h-full rounded-full border-2 border-white object-cover">
+    <!-- Header Hồ sơ Instagram -->
+    <header class="bg-white pt-6 pb-4 px-4 border-b border-ig-border relative">
+        <!-- Nút Admin dạng Option Menu -->
+        <a href="https://tiemgiaybexiu.github.io/admin/" class="absolute top-4 right-4 text-ig-gray hover:text-black transition">
+            <i class="fas fa-bars text-xl"></i>
+        </a>
+
+        <div class="max-w-2xl mx-auto flex flex-col md:flex-row items-center gap-5 md:gap-8">
+            <!-- Avatar có vòng Story -->
+            <div class="story-ring-active shrink-0">
+                <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white p-0.5 relative">
+                    <img src="https://i.ibb.co/svCGqf0w/Gemini-Generated-Image-5b2r4l5b2r4l5b2r.png" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                </div>
             </div>
             
-            <!-- Info -->
-            <h1 class="text-lg font-bold flex items-center justify-center gap-1">tiemgiay.bexiu <i class="fas fa-check-circle text-blue-500 text-xs"></i></h1>
-            
-            <div class="flex gap-4 mt-1.5 text-xs justify-center text-gray-700">
-                <div><span class="font-bold block text-sm" id="totalShoes">0</span> bài viết</div>
-                <div><span class="font-bold block text-sm">100%</span> chính hãng</div>
-            </div>
-            
-            <div class="mt-2.5">
-                <p class="text-sm font-extrabold text-red-500 tracking-tight">✨ GIÀY 2HAND NỮ CHÍNH HÃNG SIÊU RẺ</p>
-                <p class="text-xs text-gray-500 mt-0.5">📍 22 Ngô Chí Quốc, Thủ Dầu Một, Bình Dương</p>
-            </div>
-            
-            <div class="flex gap-2 mt-3 justify-center w-full max-w-xs">
-                <a href="https://zalo.me/0387444701" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-bold text-xs py-2 rounded-lg transition">Nhắn Zalo</a>
-                <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-bold text-xs py-2 rounded-lg transition">Facebook Tiệm</a>
+            <!-- Thông tin -->
+            <div class="flex flex-col items-center md:items-start flex-1 w-full">
+                <div class="flex items-center gap-2 mb-3">
+                    <h1 class="text-xl font-bold tracking-tight">tiemgiay.bexiu</h1>
+                    <i class="fas fa-certificate text-blue-500 text-sm" title="Đã xác minh"></i>
+                </div>
+                
+                <div class="flex gap-6 mb-3 text-sm">
+                    <div class="text-center md:text-left"><span class="font-bold text-base" id="totalShoes">0</span><br><span class="text-ig-gray">giày sẵn có</span></div>
+                    <div class="text-center md:text-left"><span class="font-bold text-base">100%</span><br><span class="text-ig-gray">chính hãng</span></div>
+                </div>
+                
+                <div class="text-sm font-medium mb-4 text-center md:text-left">
+                    <p class="font-bold">Giày 2hand Nữ & Học sinh</p>
+                    <p class="text-ig-gray text-xs mt-0.5">📍 117 Phạm Ngũ Lão, Thủ Dầu Một, Bình Dương</p>
+                </div>
+                
+                <div class="flex gap-2 w-full max-w-sm justify-center md:justify-start">
+                    <a href="https://zalo.me/0387444701" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Nhắn Zalo</a>
+                    <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Facebook Tiệm</a>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Bộ lọc Size Story (Sticky Top - Chỉ thanh này lướt theo) -->
-    <div class="bg-white/95 backdrop-blur-md border-b border-gray-200 py-2.5 mb-4 sticky top-0 z-40 shadow-sm">
-        <div class="max-w-5xl mx-auto px-2">
-            <h3 class="text-[10px] font-bold text-gray-400 text-center mb-1.5 uppercase tracking-wide">Chọn Size Của Bạn</h3>
-            <div class="flex overflow-x-auto no-scrollbar gap-2 sm:gap-4 px-2 pb-1 md:justify-center" id="storyFilters">
-                <!-- Sẽ được render bằng JS -->
+    <!-- Khu vực Lọc Size & Tab -->
+    <div class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-ig-border shadow-sm">
+        <div class="max-w-4xl mx-auto px-3 pt-3 pb-1">
+            
+            <!-- Tabs Chọn Nhóm Size Nổi Bật (Segmented Pill) -->
+            <div class="max-w-md mx-auto bg-gray-100 p-1.5 rounded-2xl flex gap-1.5 shadow-inner border border-gray-200">
+                <button onclick="switchTab('small')" id="tab-small" class="flex-1 py-2.5 px-3 rounded-xl font-black text-xs sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1.5">
+                    <span>👟 SIZE NHỎ</span>
+                    <span class="text-[10px] sm:text-xs font-semibold opacity-85">(Kid - 39)</span>
+                </button>
+                <button onclick="switchTab('large')" id="tab-large" class="flex-1 py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1.5">
+                    <span>👟 SIZE LỚN</span>
+                    <span class="text-[10px] sm:text-xs font-semibold opacity-85">(40 - 45)</span>
+                </button>
             </div>
+
+            <!-- Vòng tròn Story Size -->
+            <div class="py-4 px-2">
+                <div class="flex flex-wrap justify-center gap-4" id="storyFilters">
+                    <!-- JS render Story Rings -->
+                </div>
+            </div>
+            
         </div>
     </div>
 
-    <!-- Lưới sản phẩm (Tăng kích thước ảnh lớn hơn, tối đa 4 cột) -->
-    <main class="max-w-5xl mx-auto px-2 md:px-4">
-        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+    <!-- Lưới Sản Phẩm -->
+    <main class="max-w-4xl mx-auto px-1 pt-1">
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 gap-[2px] sm:gap-2">
             <!-- Sản phẩm load ở đây -->
-            <div class="col-span-full text-center py-10 text-gray-400">
-                <i class="fas fa-spinner fa-spin text-3xl"></i>
-                <p class="mt-2 text-sm">Đang tải tủ giày...</p>
+            <div class="col-span-full text-center py-20 text-ig-gray">
+                <i class="fas fa-circle-notch fa-spin text-2xl mb-2"></i>
+                <p class="text-sm">Đang tải kệ giày...</p>
             </div>
         </div>
     </main>
 
-    <!-- Khung Chốt Đơn / Chi tiết (Modal) -->
-    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-70 hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative flex flex-col md:flex-row shadow-2xl">
-            <button onclick="closeModal()" class="absolute top-3 right-3 bg-gray-200 w-8 h-8 rounded-full flex items-center justify-center z-10 hover:bg-gray-300">
-                <i class="fas fa-times"></i>
+    <!-- Modal Unified Card Chốt Đơn Tối Giản -->
+    <div id="orderModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 transition-opacity">
+        <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl no-scrollbar shadow-2xl relative flex flex-col">
+            
+            <button onclick="closeModal()" class="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white w-7 h-7 rounded-full flex items-center justify-center z-20 hover:bg-black/70 transition">
+                <i class="fas fa-times text-xs"></i>
             </button>
             
-            <!-- Phần ảnh bên trái (Trở thành vuông hoàn hảo) -->
-            <div class="w-full md:w-1/2 bg-gray-100 aspect-square zoom-img-container flex items-center justify-center">
-                <img id="modalImg" src="" alt="Giày" class="w-full h-full object-contain p-2">
+            <!-- Phần ảnh vuông -->
+            <div class="w-full aspect-square bg-ig-bg relative flex items-center justify-center">
+                <img id="modalImg" src="" alt="Giày" class="absolute inset-0 w-full h-full object-cover">
             </div>
             
-            <!-- Phần thông tin bên phải -->
-            <div class="w-full md:w-1/2 p-5 flex flex-col justify-center">
-                <div class="flex items-center gap-2 mb-2">
-                    <span class="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded">Mã: <span id="modalCode"></span></span>
-                    <span class="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-1 rounded">Size: <span id="modalSize"></span></span>
+            <!-- Phần form thông tin -->
+            <div class="p-5 bg-white">
+                <div class="mb-3">
+                    <div class="text-[10px] font-bold text-ig-gray tracking-wider uppercase mb-1">Mã giày: <span id="modalCode" class="text-black text-xs font-black"></span></div>
+                    <div class="flex justify-between items-baseline">
+                        <h2 class="text-xl font-bold tracking-tight text-black" id="modalPrice"></h2>
+                        <div class="text-xs text-ig-gray font-medium">
+                            <span class="text-black font-semibold">Size <span id="modalSize"></span></span> • <span id="modalCmInfo"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Khu vực Xin Thêm Ảnh -->
+                <div class="mb-4 pt-3 border-t border-gray-100">
+                    <p class="text-xs text-gray-500 font-medium mb-2 flex items-center gap-1.5">
+                        <i class="fas fa-camera text-gray-400"></i> Xin thêm ảnh:
+                    </p>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="https://zalo.me/0387444701" target="_blank" class="py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs flex items-center justify-center gap-1.5 transition text-center shadow-sm">
+                            <i class="fas fa-comment-dots text-sm"></i> Nhắn tin Zalo
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="py-2.5 px-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs flex items-center justify-center gap-1.5 transition text-center shadow-sm">
+                            <i class="fab fa-facebook-messenger text-sm"></i> Nhắn tin Facebook
+                        </a>
+                    </div>
                 </div>
                 
-                <h2 class="text-2xl font-bold text-red-600 mb-4" id="modalPrice"></h2>
-                
-                <div class="bg-orange-50 border border-orange-200 rounded-lg p-3 mb-5">
-                    <p class="text-xs text-orange-800 font-semibold mb-1"><i class="fas fa-ruler-horizontal mr-1"></i> Gợi ý kích thước chân:</p>
-                    <p class="text-sm font-bold text-orange-900" id="modalCmInfo"></p>
+                <div class="relative">
+                    <input type="tel" id="customerPhone" placeholder="Nhập SĐT để Shop tư vấn/chốt đơn..." class="w-full bg-gray-50 border border-ig-border rounded-xl pl-4 pr-[80px] py-3 text-sm focus:outline-none focus:border-gray-400 transition-colors">
+                    <button id="btnSubmitOrder" onclick="submitOrder()" class="absolute right-1 top-1 bottom-1 bg-black text-white font-semibold px-4 rounded-lg hover:bg-gray-800 transition text-xs">
+                        Gửi
+                    </button>
                 </div>
-                
-                <!-- Chỉ giữ lại Tên và SĐT -->
-                <div class="space-y-3 mb-5">
-                    <input type="text" id="customerName" placeholder="Tên của bạn" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-400 transition-colors">
-                    <input type="tel" id="customerPhone" placeholder="Số điện thoại Zalo" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gray-400 transition-colors">
-                </div>
-                
-                <button id="btnSubmitOrder" onclick="submitOrder()" class="w-full bg-black text-white font-bold py-3.5 rounded-xl shadow-lg hover:bg-gray-800 transition flex items-center justify-center gap-2 active:scale-95">
-                    <i class="fas fa-paper-plane"></i> Chốt đơn / Nhờ tư vấn
-                </button>
             </div>
         </div>
     </div>
 
-    <!-- Footer link to admin -->
-    <div class="text-center py-8 mt-10 border-t border-gray-200">
-        <a href="admin.html" class="text-xs text-gray-400 hover:text-gray-600"><i class="fas fa-lock mr-1"></i> Quản trị viên (Admin)</a>
+    <!-- Footer -->
+    <div class="text-center py-10 mt-10">
     </div>
 
-    <!-- Nút Lên đầu trang -->
-    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-gray-800 text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center opacity-70 hover:opacity-100 z-40">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <div id="toast"><span></span> <span id="toastMsg"></span></div>
 
-    <!-- Thông báo Toast -->
-    <div id="toast"><i class="fas fa-check-circle text-green-400 mr-2"></i> <span id="toastMsg"></span></div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    <script>
-        // FIREBASE CONFIG CŨ CỦA BẠN
+        // FIREBASE CONFIG
         const fbP1 = "AIzaSyCVAm"; const fbP2 = "JO1KViXVg3"; const fbP3 = "kizelTp6CZ"; const fbP4 = "AFmJLkKiM";
         const firebaseConfig = {
             apiKey: fbP1 + fbP2 + fbP3 + fbP4,
             authDomain: "donggia-8ef8e.firebaseapp.com", 
             projectId: "donggia-8ef8e",
-            storageBucket: "donggia-8ef8e.firebasestorage.app", 
-            messagingSenderId: "186638607487",
-            appId: "1:186638607487:web:9fe74d79311b0f43d70b4a"
+            storageBucket: "donggia-8ef8e.firebasestorage.app"
         };
-        
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
         let allProducts = [];
-        let currentFilter = '36'; // Mặc định size 36
+        window.currentGenderTab = 'small'; 
+        window.currentFilter = '37';        
 
-        // Hàm hiện thông báo đẹp
-        function showToast(message) {
+        window.showToast = function(message) {
             const toast = document.getElementById("toast");
             document.getElementById("toastMsg").innerText = message;
             toast.className = "show";
             setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3500);
         }
 
-        // Render Story Filter
-        function renderFilters() {
+        window.switchTab = function(tabName) {
+            window.currentGenderTab = tabName;
+            const btnSmall = document.getElementById('tab-small');
+            const btnLarge = document.getElementById('tab-large');
+
+            const activeClass = "flex-1 py-2.5 px-3 rounded-xl font-black text-xs sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1.5";
+            const inactiveClass = "flex-1 py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1.5";
+
+            if (tabName === 'small') {
+                btnSmall.className = activeClass;
+                btnLarge.className = inactiveClass;
+                window.currentFilter = '37'; 
+            } else {
+                btnLarge.className = activeClass;
+                btnSmall.className = inactiveClass;
+                window.currentFilter = '40'; 
+            }
+            window.renderFilters();
+            window.renderProducts();
+        }
+
+        window.renderFilters = function() {
             const container = document.getElementById('storyFilters');
-            let html = `
-                <div class="flex flex-col items-center cursor-pointer min-w-[55px]" onclick="applyFilter('ALL')">
-                    <div class="w-12 h-12 rounded-full border-[2px] p-0.5 flex items-center justify-center font-bold text-xs ${currentFilter === 'ALL' ? 'border-pink-500 text-pink-600 bg-pink-50' : 'border-gray-300 text-gray-500 bg-gray-100'} transition-colors">Tất cả</div>
-                </div>
-            `;
+            let html = '';
             
-            // Các size chính để làm filter
-            const filterSizes = ['kid', '33', '34', '35', '36', '36.5', '37', '38', '39'];
+            const smallSizes = ['kid', '33', '34', '35', '36', '36.5', '37', '38', '39'];
+            const largeSizes = ['40', '41', '42', '43', '44', '45'];
+            const activeSizes = (window.currentGenderTab === 'small') ? smallSizes : largeSizes;
             
-            filterSizes.forEach(size => {
+            activeSizes.forEach(size => {
                 let display = size === 'kid' ? 'KID' : size;
-                let isActive = currentFilter === size;
+                let isActive = window.currentFilter === size;
+                let ringClass = isActive ? "story-ring-active" : "story-ring-inactive opacity-60 hover:opacity-100";
+                
                 html += `
-                    <div class="flex flex-col items-center cursor-pointer min-w-[55px]" onclick="applyFilter('${size}')">
-                        <div class="w-12 h-12 rounded-full border-[2px] p-0.5 flex items-center justify-center font-bold text-xs ${isActive ? 'border-pink-500 text-pink-600 bg-pink-50' : 'border-gray-300 text-gray-600'} transition-colors">${display}</div>
+                    <div class="flex flex-col items-center cursor-pointer min-w-[60px]" onclick="applyFilter('${size}')">
+                        <div class="${ringClass} transition-opacity">
+                            <div class="w-[56px] h-[56px] bg-white rounded-full flex items-center justify-center font-bold text-[13px] text-black">
+                                ${display}
+                            </div>
+                        </div>
                     </div>
                 `;
             });
             container.innerHTML = html;
         }
 
-        function applyFilter(size) {
-            currentFilter = size;
-            renderFilters();
-            renderProducts();
+        window.applyFilter = function(size) {
+            window.currentFilter = size;
+            window.renderFilters();
+            window.renderProducts();
         }
 
-        // Tải dữ liệu từ Firestore
-        db.collection("products").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
+        onSnapshot(collection(db, "products"), (snapshot) => {
             allProducts = [];
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                // Lọc bằng JS để tránh lỗi Firebase Composite Index
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
                 if (data.status === 'available' || !data.status || !data.isSold) {
-                    // Hỗ trợ cả định dạng ảnh cũ và mới
                     const imgUrl = data.imageUrl || (data.images && data.images[0]) || '';
-                    allProducts.push({ id: doc.id, ...data, imageUrl: imgUrl });
+                    allProducts.push({ id: docSnap.id, ...data, imageUrl: imgUrl });
                 }
             });
+
+            allProducts.sort((a, b) => {
+                const timeA = a.createdAt ? (a.createdAt.toMillis ? a.createdAt.toMillis() : 0) : 0;
+                const timeB = b.createdAt ? (b.createdAt.toMillis ? b.createdAt.toMillis() : 0) : 0;
+                return timeB - timeA;
+            });
+
             document.getElementById('totalShoes').innerText = allProducts.length;
-            renderProducts();
+            window.renderProducts();
         });
 
-        // Tối ưu ảnh ImageKit
-        function getOptimizedImageUrl(url, width = 600) {
+        window.getOptimizedImageUrl = function(url, width = 600) {
             if (!url) return '';
             if (url.includes('ik.imagekit.io') && !url.includes('tr=')) return `${url}?tr=w-${width},f-webp,q-85`;
             return url;
         }
 
-        // Render sản phẩm ra lưới
-        function renderProducts() {
+        window.renderProducts = function() {
             const container = document.getElementById('productGrid');
             container.innerHTML = '';
             
-            let filtered = allProducts;
-            if (currentFilter !== 'ALL') {
-                filtered = allProducts.filter(p => {
-                    let pSize = p.size.toString().toLowerCase();
-                    // Lọc chính xác 36 và 36.5 riêng biệt
-                    if (currentFilter === '36') return pSize === '36';
-                    if (currentFilter === '36.5') return pSize === '36.5';
-                    // Các size khác chứa chuỗi là được (vd: 33 sẽ ra cả 33 và 33.5)
-                    return pSize.includes(currentFilter);
-                });
-            }
+            let filtered = allProducts.filter(p => {
+                let pSize = (p.size || '').toString().toLowerCase();
+                let cFilter = window.currentFilter.toString().toLowerCase();
+                if (cFilter === '36') return pSize === '36';
+                if (cFilter === '36.5') return pSize === '36.5';
+                return pSize.includes(cFilter);
+            });
 
             if(filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-10 text-gray-400">Không tìm thấy đôi nào size này!</div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-20 text-ig-gray"><i class="fas fa-camera text-4xl mb-3 opacity-20"></i><br>Chưa có giày ở size này</div>`;
                 return;
             }
 
             filtered.forEach(p => {
-                // Khung vuông (aspect-square) chứa ảnh object-contain
                 const div = document.createElement('div');
-                div.className = "bg-white border border-gray-200 rounded-lg overflow-hidden cursor-pointer hover:shadow-md transition relative group";
-                div.onclick = () => openModal(p);
+                div.className = "cursor-pointer group flex flex-col bg-white border border-gray-100 overflow-hidden hover:shadow-sm transition-shadow";
+                div.onclick = () => window.openModal(p);
                 div.innerHTML = `
-                    <div class="aspect-square w-full bg-white relative flex items-center justify-center overflow-hidden p-0.5">
-                        <img src="${getOptimizedImageUrl(p.imageUrl, 500)}" loading="lazy" class="w-full h-full object-contain scale-95 group-hover:scale-100 transition-transform duration-300">
-                        <div class="absolute bottom-1.5 right-1.5 bg-black/70 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">Mã: ${p.code}</div>
+                    <div class="aspect-square w-full relative overflow-hidden bg-ig-bg">
+                        <img src="${window.getOptimizedImageUrl(p.imageUrl, 500)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
-                    <div class="p-2 sm:p-3 text-center border-t border-gray-100 bg-gray-50/40">
-                        <div class="flex flex-col sm:flex-row sm:justify-between items-center gap-1 sm:gap-0 px-1">
-                            <span class="font-extrabold text-xs sm:text-sm text-gray-700 bg-gray-200/60 px-2 py-0.5 rounded">Size ${p.size}</span>
-                            <span class="text-red-500 font-black text-sm sm:text-base">${(p.price || 0).toLocaleString('vi-VN')}đ</span>
+                    <div class="p-2.5 flex flex-col gap-1 border-t border-gray-50">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] font-bold text-ig-gray uppercase tracking-wider">#${p.code}</span>
+                            <span class="text-[10px] font-bold bg-gray-100 px-2 py-0.5 rounded-full text-gray-800">Size ${p.size}</span>
                         </div>
+                        <div class="font-bold text-[14px] text-black mt-0.5">${(p.price || 0).toLocaleString('vi-VN')}đ</div>
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
 
-        // Xử lý Modal Chốt đơn
         let currentItem = null;
-        function openModal(item) {
+        window.openModal = function(item) {
             currentItem = item;
-            document.getElementById('modalImg').src = getOptimizedImageUrl(item.imageUrl, 800);
+            document.getElementById('modalImg').src = window.getOptimizedImageUrl(item.imageUrl, 800);
             document.getElementById('modalCode').innerText = item.code;
             document.getElementById('modalSize').innerText = item.size;
             document.getElementById('modalPrice').innerText = (item.price || 0).toLocaleString('vi-VN') + 'đ';
             
-            // Xử lý gợi ý CM
-            let cmText = "Vừa chân";
+            let cmText = "~ Vừa vặn";
             let sNum = parseFloat(item.size);
             if(!isNaN(sNum)) {
-                if(sNum === 33 || sNum === 33.5) cmText = "Khoảng 20.5cm - 21cm";
-                else if(sNum === 34 || sNum === 34.5) cmText = "Khoảng 21.5cm - 22cm";
-                else if(sNum === 35 || sNum === 35.5) cmText = "Khoảng 22cm - 22.5cm";
-                else if(sNum === 36) cmText = "Khoảng 22.5cm - 23cm";
-                else if(sNum === 36.5 || sNum === 37) cmText = "Khoảng 23cm - 23.5cm";
-                else if(sNum >= 37.5) cmText = "Từ 24cm trở lên";
-            } else if(item.size.toLowerCase() === 'kid') {
-                cmText = "Size bé dưới 20cm";
+                if(sNum === 33 || sNum === 33.5) cmText = "~ 20.5cm - 21cm";
+                else if(sNum === 34 || sNum === 34.5) cmText = "~ 21.5cm - 22cm";
+                else if(sNum === 35 || sNum === 35.5) cmText = "~ 22cm - 22.5cm";
+                else if(sNum === 36) cmText = "~ 22.5cm - 23cm";
+                else if(sNum === 36.5 || sNum === 37) cmText = "~ 23cm - 23.5cm";
+                else if(sNum >= 37.5 && sNum <= 39) cmText = "~ 24cm - 25cm";
+                else if(sNum >= 40 && sNum <= 41) cmText = "~ 25.5cm - 26cm";
+                else if(sNum >= 42 && sNum <= 43) cmText = "~ 26.5cm - 27.5cm";
+                else if(sNum >= 44) cmText = "~ 28cm+";
+            } else if((item.size || '').toLowerCase() === 'kid') {
+                cmText = "Size bé < 20cm";
             }
             document.getElementById('modalCmInfo').innerText = cmText;
             
             document.getElementById('orderModal').classList.remove('hidden');
         }
 
-        function closeModal() {
+        window.closeModal = function() {
             document.getElementById('orderModal').classList.add('hidden');
         }
 
-        // Hàm Gửi đơn qua Telegram Bot
-        function submitOrder() {
-            const name = document.getElementById('customerName').value.trim();
+        window.submitOrder = async function() {
             const phone = document.getElementById('customerPhone').value.trim();
             const btn = document.getElementById('btnSubmitOrder');
 
-            if (!name || !phone) {
-                alert('Vui lòng điền Tên và Số điện thoại!');
+            if (!phone) {
+                window.showToast('Vui lòng nhập SĐT để Shop liên hệ!');
                 return;
             }
 
-            // Đổi trạng thái nút
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
 
             const telegramBotToken = "8968912621:AAFKK2PQuPNqWLLer4_wkZf6PtY1ZzHV9RI";
             const chatId = "8511070091";
             
-            const message = `🔥 YÊU CẦU TỪ KHÁCH MỚI 🔥\n\n` +
-                            `👤 Khách: ${name}\n` +
-                            `📞 SĐT: ${phone}\n\n` +
-                            `📦 THÔNG TIN GIÀY:\n` +
-                            `- Mã SP: ${currentItem.code}\n` +
-                            `- Size: ${currentItem.size}\n` +
-                            `- Giá: ${(currentItem.price || 0).toLocaleString('vi-VN')}đ\n\n` +
-                            `🔗 Nhắn Zalo khách: https://zalo.me/${phone}`;
+            const message = `🔥 YÊU CẦU TỪ WEB 🔥\n\n` +
+                            `📞 SĐT: ${phone}\n` +
+                            `📦 Giày: ${currentItem.code} | Size ${currentItem.size}\n` +
+                            `💰 Giá: ${(currentItem.price || 0).toLocaleString('vi-VN')}đ\n\n` +
+                            `🔗 Nhắn Zalo: https://zalo.me/${phone}`;
 
-            const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
-            const data = { chat_id: chatId, text: message, parse_mode: 'HTML' };
-
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            })
-            .then(res => res.json())
-            .then(res => {
-                if(res.ok) {
-                    showToast("Gửi thành công! Shop sẽ liên hệ với bạn ngay nhé.");
-                    closeModal();
-                    // Lưu luôn lịch sử đơn vào Firebase
-                    db.collection("orders").add({
-                        productCode: currentItem.code,
-                        size: currentItem.size,
-                        price: currentItem.price,
-                        customerName: name,
-                        customerPhone: phone,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        status: 'pending'
-                    });
-                } else {
-                    alert("Có lỗi kết nối hệ thống thông báo. Bạn vui lòng nhắn trực tiếp qua Zalo nhé!");
-                }
-            })
-            .catch(err => {
-                alert("Lỗi mạng. Vui lòng thử lại!");
-            })
-            .finally(() => {
-                // Phục hồi nút
-                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Chốt đơn / Nhờ tư vấn';
-                btn.disabled = false;
+            try {
+                const res = await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' })
+                });
                 
-                // Clear Form
-                document.getElementById('customerName').value = '';
+                if((await res.json()).ok) {
+                    window.showToast("Gửi thành công! Shop sẽ liên hệ bạn ngay.");
+                    window.closeModal();
+                    await addDoc(collection(db, "orders"), {
+                        productCode: currentItem.code, size: currentItem.size, price: currentItem.price,
+                        customerName: "Khách web", customerPhone: phone,
+                        timestamp: serverTimestamp(), status: 'pending'
+                    });
+                }
+            } catch (err) {
+                window.showToast("Lỗi mạng. Vui lòng thử lại!");
+            } finally {
+                btn.innerHTML = 'Gửi';
+                btn.disabled = false;
                 document.getElementById('customerPhone').value = '';
-            });
+            }
         }
 
-        renderFilters();
+        window.renderFilters();
     </script>
 </body>
 </html>
