@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tiệm giày Bé Xíu - Giày 2hand</title>
-    <!-- Thêm font chữ cao cấp Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -13,12 +12,8 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        ig: { text: '#262626', link: '#00376b', border: '#dbdbdb', gray: '#8e8e8e', bg: '#fafafa' }
-                    }
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { ig: { text: '#262626', link: '#00376b', border: '#dbdbdb', gray: '#8e8e8e', bg: '#fafafa' } }
                 }
             }
         }
@@ -29,17 +24,11 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Viền Story kiểu Instagram */
         .story-ring-active {
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            padding: 2.5px;
-            border-radius: 50%;
+            padding: 2.5px; border-radius: 50%;
         }
-        .story-ring-inactive {
-            background: #dbdbdb;
-            padding: 1.5px;
-            border-radius: 50%;
-        }
+        .story-ring-inactive { background: #dbdbdb; padding: 1.5px; border-radius: 50%; }
 
         #toast {
             visibility: hidden; min-width: 250px; background-color: #262626; color: #fff;
@@ -54,20 +43,17 @@
 
     <!-- Header Hồ sơ Instagram -->
     <header class="bg-white pt-6 pb-4 px-4 border-b border-ig-border relative">
-        <!-- Nút Admin dạng Option Menu -->
         <a href="https://tiemgiaybexiu.github.io/admin/" class="absolute top-4 right-4 text-ig-gray hover:text-black transition">
             <i class="fas fa-bars text-xl"></i>
         </a>
 
         <div class="max-w-2xl mx-auto flex flex-col md:flex-row items-center gap-5 md:gap-8">
-            <!-- Avatar có vòng Story -->
             <div class="story-ring-active shrink-0">
                 <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white p-0.5 relative">
                     <img src="https://i.ibb.co/svCGqf0w/Gemini-Generated-Image-5b2r4l5b2r4l5b2r.png" alt="Avatar" class="w-full h-full rounded-full object-cover">
                 </div>
             </div>
             
-            <!-- Thông tin -->
             <div class="flex flex-col items-center md:items-start flex-1 w-full">
                 <div class="flex items-center gap-2 mb-3">
                     <h1 class="text-xl font-bold tracking-tight">tiemgiay.bexiu</h1>
@@ -85,7 +71,8 @@
                 </div>
                 
                 <div class="flex gap-2 w-full max-w-sm justify-center md:justify-start">
-                    <a href="https://zalo.me/0387444701" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Nhắn Zalo</a>
+                    <!-- SĐT MỚI: 0378 155 320 -->
+                    <a href="https://zalo.me/0378155320" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Nhắn Zalo</a>
                     <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Facebook Tiệm</a>
                 </div>
             </div>
@@ -96,7 +83,6 @@
     <div class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-ig-border shadow-sm">
         <div class="max-w-4xl mx-auto px-3 pt-3 pb-1">
             
-            <!-- Tabs Chọn Nhóm Size Nổi Bật (Segmented Pill) -->
             <div class="max-w-md mx-auto bg-gray-100 p-1.5 rounded-2xl flex gap-1.5 shadow-inner border border-gray-200">
                 <button onclick="switchTab('small')" id="tab-small" class="flex-1 py-2.5 px-3 rounded-xl font-black text-xs sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1.5">
                     <span>👟 SIZE NHỎ</span>
@@ -108,7 +94,6 @@
                 </button>
             </div>
 
-            <!-- Vòng tròn Story Size -->
             <div class="py-4 px-2">
                 <div class="flex flex-wrap justify-center gap-4" id="storyFilters">
                     <!-- JS render Story Rings -->
@@ -120,8 +105,8 @@
 
     <!-- Lưới Sản Phẩm -->
     <main class="max-w-4xl mx-auto px-1 pt-1">
-        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 gap-[2px] sm:gap-2">
-            <!-- Sản phẩm load ở đây -->
+        <!-- Bỏ aspect ratio cố định, cho ảnh tự do giãn chiều cao (h-auto) -->
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 gap-1.5 sm:gap-2">
             <div class="col-span-full text-center py-20 text-ig-gray">
                 <i class="fas fa-circle-notch fa-spin text-2xl mb-2"></i>
                 <p class="text-sm">Đang tải kệ giày...</p>
@@ -133,19 +118,17 @@
     <div id="orderModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 transition-opacity">
         <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl no-scrollbar shadow-2xl relative flex flex-col">
             
-            <button onclick="closeModal()" class="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white w-7 h-7 rounded-full flex items-center justify-center z-20 hover:bg-black/70 transition">
-                <i class="fas fa-times text-xs"></i>
+            <button onclick="closeModal()" class="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white w-8 h-8 rounded-full flex items-center justify-center z-20 hover:bg-black/70 transition">
+                <i class="fas fa-times"></i>
             </button>
             
-            <!-- Phần ảnh vuông -->
-            <div class="w-full aspect-square bg-ig-bg relative flex items-center justify-center">
-                <img id="modalImg" src="" alt="Giày" class="absolute inset-0 w-full h-full object-cover">
+            <!-- Phần hiển thị ảnh tỷ lệ thực, ko crop vuông -->
+            <div class="w-full bg-gray-100 flex items-center justify-center min-h-[250px] max-h-[60vh] overflow-hidden">
+                <img id="modalImg" src="" alt="Giày" class="w-full h-full object-contain">
             </div>
             
-            <!-- Phần form thông tin -->
             <div class="p-5 bg-white">
                 <div class="mb-3">
-                    <div class="text-[10px] font-bold text-ig-gray tracking-wider uppercase mb-1">Mã giày: <span id="modalCode" class="text-black text-xs font-black"></span></div>
                     <div class="flex justify-between items-baseline">
                         <h2 class="text-xl font-bold tracking-tight text-black" id="modalPrice"></h2>
                         <div class="text-xs text-ig-gray font-medium">
@@ -154,13 +137,12 @@
                     </div>
                 </div>
 
-                <!-- Khu vực Xin Thêm Ảnh -->
                 <div class="mb-4 pt-3 border-t border-gray-100">
                     <p class="text-xs text-gray-500 font-medium mb-2 flex items-center gap-1.5">
                         <i class="fas fa-camera text-gray-400"></i> Xin thêm ảnh:
                     </p>
                     <div class="grid grid-cols-2 gap-2">
-                        <a href="https://zalo.me/0387444701" target="_blank" class="py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs flex items-center justify-center gap-1.5 transition text-center shadow-sm">
+                        <a href="https://zalo.me/0378155320" target="_blank" class="py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs flex items-center justify-center gap-1.5 transition text-center shadow-sm">
                             <i class="fas fa-comment-dots text-sm"></i> Nhắn tin Zalo
                         </a>
                         <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="py-2.5 px-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs flex items-center justify-center gap-1.5 transition text-center shadow-sm">
@@ -179,10 +161,7 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="text-center py-10 mt-10">
-    </div>
-
+    <div class="text-center py-10 mt-10"></div>
     <div id="toast"><span></span> <span id="toastMsg"></span></div>
 
     <script type="module">
@@ -234,6 +213,7 @@
 
         window.renderFilters = function() {
             const container = document.getElementById('storyFilters');
+            if (!container) return;
             let html = '';
             
             const smallSizes = ['kid', '33', '34', '35', '36', '36.5', '37', '38', '39'];
@@ -256,13 +236,22 @@
                 `;
             });
             container.innerHTML = html;
-        }
+        };
 
         window.applyFilter = function(size) {
             window.currentFilter = size;
             window.renderFilters();
             window.renderProducts();
-        }
+        };
+
+        const parseTimestamp = (val) => {
+            if (!val) return 0;
+            if (typeof val.toMillis === 'function') return val.toMillis();
+            if (val.seconds) return val.seconds * 1000;
+            if (val instanceof Date) return val.getTime();
+            if (typeof val === 'number') return val;
+            return new Date(val).getTime() || 0;
+        };
 
         onSnapshot(collection(db, "products"), (snapshot) => {
             allProducts = [];
@@ -270,28 +259,39 @@
                 const data = docSnap.data();
                 if (data.status === 'available' || !data.status || !data.isSold) {
                     const imgUrl = data.imageUrl || (data.images && data.images[0]) || '';
-                    allProducts.push({ id: docSnap.id, ...data, imageUrl: imgUrl });
+                    // Chỉ lấy những file up thành công có imageUrl
+                    if(imgUrl && imgUrl.startsWith('http')) {
+                        allProducts.push({ id: docSnap.id, ...data, imageUrl: imgUrl });
+                    }
                 }
             });
 
             allProducts.sort((a, b) => {
-                const timeA = a.createdAt ? (a.createdAt.toMillis ? a.createdAt.toMillis() : 0) : 0;
-                const timeB = b.createdAt ? (b.createdAt.toMillis ? b.createdAt.toMillis() : 0) : 0;
+                const timeA = parseTimestamp(a.createdAt);
+                const timeB = parseTimestamp(b.createdAt);
                 return timeB - timeA;
             });
 
-            document.getElementById('totalShoes').innerText = allProducts.length;
+            const totalEl = document.getElementById('totalShoes');
+            if (totalEl) totalEl.innerText = allProducts.length;
             window.renderProducts();
+        }, (error) => {
+            const container = document.getElementById('productGrid');
+            if (container) {
+                container.innerHTML = `<div class="col-span-full text-center py-16 text-gray-500">Lỗi kết nối CSDL. Vui lòng tải lại trang.</div>`;
+            }
         });
 
+        // Chỉ thêm param tối ưu WebP cho các link ImageKit
         window.getOptimizedImageUrl = function(url, width = 600) {
             if (!url) return '';
             if (url.includes('ik.imagekit.io') && !url.includes('tr=')) return `${url}?tr=w-${width},f-webp,q-85`;
             return url;
-        }
+        };
 
         window.renderProducts = function() {
             const container = document.getElementById('productGrid');
+            if (!container) return;
             container.innerHTML = '';
             
             let filtered = allProducts.filter(p => {
@@ -309,31 +309,30 @@
 
             filtered.forEach(p => {
                 const div = document.createElement('div');
-                div.className = "cursor-pointer group flex flex-col bg-white border border-gray-100 overflow-hidden hover:shadow-sm transition-shadow";
+                // Ảnh sẽ tự động co giãn theo tỉ lệ gốc nhờ w-full h-auto
+                div.className = "cursor-pointer group flex flex-col bg-white border border-gray-100 overflow-hidden hover:shadow-sm transition-shadow rounded-md";
                 div.onclick = () => window.openModal(p);
                 div.innerHTML = `
-                    <div class="aspect-square w-full relative overflow-hidden bg-ig-bg">
-                        <img src="${window.getOptimizedImageUrl(p.imageUrl, 500)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="w-full relative overflow-hidden bg-ig-bg flex-1 flex items-center justify-center">
+                        <img src="${window.getOptimizedImageUrl(p.imageUrl, 500)}" loading="lazy" class="w-full h-auto max-h-[300px] object-cover group-hover:scale-105 transition-transform duration-500" alt="Giày">
                     </div>
                     <div class="p-2.5 flex flex-col gap-1 border-t border-gray-50">
                         <div class="flex justify-between items-center">
-                            <span class="text-[10px] font-bold text-ig-gray uppercase tracking-wider">#${p.code}</span>
-                            <span class="text-[10px] font-bold bg-gray-100 px-2 py-0.5 rounded-full text-gray-800">Size ${p.size}</span>
+                            <span class="text-[10px] font-bold bg-gray-100 px-2 py-0.5 rounded-full text-gray-800">Size ${p.size || ''}</span>
                         </div>
-                        <div class="font-bold text-[14px] text-black mt-0.5">${(p.price || 0).toLocaleString('vi-VN')}đ</div>
+                        <div class="font-bold text-[14px] text-black mt-0.5">${(Number(p.price) || 0).toLocaleString('vi-VN')}đ</div>
                     </div>
                 `;
                 container.appendChild(div);
             });
-        }
+        };
 
         let currentItem = null;
         window.openModal = function(item) {
             currentItem = item;
-            document.getElementById('modalImg').src = window.getOptimizedImageUrl(item.imageUrl, 800);
-            document.getElementById('modalCode').innerText = item.code;
-            document.getElementById('modalSize').innerText = item.size;
-            document.getElementById('modalPrice').innerText = (item.price || 0).toLocaleString('vi-VN') + 'đ';
+            document.getElementById('modalImg').src = window.getOptimizedImageUrl(item.imageUrl, 1000);
+            document.getElementById('modalSize').innerText = item.size || '';
+            document.getElementById('modalPrice').innerText = (Number(item.price) || 0).toLocaleString('vi-VN') + 'đ';
             
             let cmText = "~ Vừa vặn";
             let sNum = parseFloat(item.size);
@@ -353,20 +352,19 @@
             document.getElementById('modalCmInfo').innerText = cmText;
             
             document.getElementById('orderModal').classList.remove('hidden');
-        }
+        };
 
         window.closeModal = function() {
             document.getElementById('orderModal').classList.add('hidden');
-        }
+        };
 
         window.submitOrder = async function() {
-            const phone = document.getElementById('customerPhone').value.trim();
+            const phoneInput = document.getElementById('customerPhone');
+            const phone = phoneInput ? phoneInput.value.trim() : '';
             const btn = document.getElementById('btnSubmitOrder');
 
-            if (!phone) {
-                window.showToast('Vui lòng nhập SĐT để Shop liên hệ!');
-                return;
-            }
+            if (!phone) { window.showToast('Vui lòng nhập SĐT để Shop liên hệ!'); return; }
+            if (!currentItem) { window.showToast('Chưa chọn sản phẩm!'); return; }
 
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             btn.disabled = true;
@@ -374,36 +372,48 @@
             const telegramBotToken = "8968912621:AAFKK2PQuPNqWLLer4_wkZf6PtY1ZzHV9RI";
             const chatId = "8511070091";
             
+            // Link Zalo Đã đổi
             const message = `🔥 YÊU CẦU TỪ WEB 🔥\n\n` +
                             `📞 SĐT: ${phone}\n` +
-                            `📦 Giày: ${currentItem.code} | Size ${currentItem.size}\n` +
-                            `💰 Giá: ${(currentItem.price || 0).toLocaleString('vi-VN')}đ\n\n` +
+                            `👟 Size: ${currentItem.size || '---'}\n` +
+                            `💰 Giá: ${(Number(currentItem.price) || 0).toLocaleString('vi-VN')}đ\n` +
+                            `🖼 Ảnh: ${currentItem.imageUrl}\n\n` +
                             `🔗 Nhắn Zalo: https://zalo.me/${phone}`;
 
             try {
-                const res = await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' })
+                // Lưu vào CSDL
+                await addDoc(collection(db, "orders"), {
+                    size: currentItem.size || '',
+                    price: Number(currentItem.price) || 0,
+                    imageUrl: currentItem.imageUrl,
+                    customerName: "Khách web",
+                    customerPhone: phone,
+                    timestamp: serverTimestamp(),
+                    status: 'pending'
                 });
-                
-                if((await res.json()).ok) {
-                    window.showToast("Gửi thành công! Shop sẽ liên hệ bạn ngay.");
-                    window.closeModal();
-                    await addDoc(collection(db, "orders"), {
-                        productCode: currentItem.code, size: currentItem.size, price: currentItem.price,
-                        customerName: "Khách web", customerPhone: phone,
-                        timestamp: serverTimestamp(), status: 'pending'
+
+                // Gửi Telegram (Sẽ gửi kèm link ảnh)
+                try {
+                    await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'HTML' })
                     });
+                } catch (tgErr) {
+                    console.warn("Lỗi gửi thông báo Telegram:", tgErr);
                 }
+
+                window.showToast("Gửi thành công! Shop sẽ liên hệ bạn ngay.");
+                window.closeModal();
+                if (phoneInput) phoneInput.value = '';
             } catch (err) {
-                window.showToast("Lỗi mạng. Vui lòng thử lại!");
+                console.error("Lỗi gửi đơn:", err);
+                window.showToast("Lỗi mạng. Vui lòng thử lại hoặc nhắn tin trực tiếp!");
             } finally {
                 btn.innerHTML = 'Gửi';
                 btn.disabled = false;
-                document.getElementById('customerPhone').value = '';
             }
-        }
+        };
 
         window.renderFilters();
     </script>
