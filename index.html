@@ -41,7 +41,7 @@
 </head>
 <body class="pb-20">
 
-    <!-- Header Hồ sơ Instagram -->
+    <!-- Header Hồ sơ -->
     <header class="bg-white pt-6 pb-4 px-4 border-b border-ig-border relative">
         <a href="https://tiemgiaybexiu.github.io/admin/" class="absolute top-4 right-4 text-ig-gray hover:text-black transition">
             <i class="fas fa-bars text-xl"></i>
@@ -71,7 +71,6 @@
                 </div>
                 
                 <div class="flex gap-2 w-full max-w-sm justify-center md:justify-start">
-                    <!-- SĐT MỚI: 0378 155 320 -->
                     <a href="https://zalo.me/0378155320" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Nhắn Zalo</a>
                     <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Facebook Tiệm</a>
                 </div>
@@ -81,20 +80,23 @@
 
     <!-- Khu vực Lọc Size & Tab -->
     <div class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-ig-border shadow-sm">
-        <div class="max-w-4xl mx-auto px-3 pt-3 pb-1">
+        <div class="max-w-4xl mx-auto px-3 pt-3 pb-2">
             
-            <div class="max-w-md mx-auto bg-gray-100 p-1.5 rounded-2xl flex gap-1.5 shadow-inner border border-gray-200">
-                <button onclick="switchTab('small')" id="tab-small" class="flex-1 py-2.5 px-3 rounded-xl font-black text-xs sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1.5">
-                    <span>👟 SIZE NHỎ</span>
-                    <span class="text-[10px] sm:text-xs font-semibold opacity-85">(Kid - 39)</span>
+            <!-- 3 Tabs: Mới về, Size Nhỏ, Size Lớn -->
+            <div class="max-w-lg mx-auto bg-gray-100 p-1.5 rounded-2xl flex gap-1.5 shadow-inner border border-gray-200">
+                <button onclick="switchTab('new')" id="tab-new" class="flex-1 py-2 px-1 rounded-xl font-black text-[11px] sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1">
+                    <i class="fas fa-fire text-orange-500"></i> MỚI VỀ
                 </button>
-                <button onclick="switchTab('large')" id="tab-large" class="flex-1 py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1.5">
-                    <span>👟 SIZE LỚN</span>
-                    <span class="text-[10px] sm:text-xs font-semibold opacity-85">(40 - 45)</span>
+                <button onclick="switchTab('small')" id="tab-small" class="flex-1 py-2 px-1 rounded-xl font-extrabold text-[11px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1">
+                    👩 SIZE NHỎ
+                </button>
+                <button onclick="switchTab('large')" id="tab-large" class="flex-1 py-2 px-1 rounded-xl font-extrabold text-[11px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1">
+                    👨 SIZE LỚN
                 </button>
             </div>
 
-            <div class="py-4 px-2">
+            <!-- Thanh chọn size vòng tròn (Sẽ bị ẩn khi ở tab Mới Về) -->
+            <div class="py-4 px-2" id="storyFiltersContainer" style="display: none;">
                 <div class="flex flex-wrap justify-center gap-4" id="storyFilters">
                     <!-- JS render Story Rings -->
                 </div>
@@ -104,8 +106,7 @@
     </div>
 
     <!-- Lưới Sản Phẩm -->
-    <main class="max-w-4xl mx-auto px-1 pt-1">
-        <!-- Bỏ aspect ratio cố định, cho ảnh tự do giãn chiều cao (h-auto) -->
+    <main class="max-w-4xl mx-auto px-1 pt-2">
         <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 gap-1.5 sm:gap-2">
             <div class="col-span-full text-center py-20 text-ig-gray">
                 <i class="fas fa-circle-notch fa-spin text-2xl mb-2"></i>
@@ -122,7 +123,6 @@
                 <i class="fas fa-times"></i>
             </button>
             
-            <!-- Phần hiển thị ảnh tỷ lệ thực, ko crop vuông -->
             <div class="w-full bg-gray-100 flex items-center justify-center min-h-[250px] max-h-[60vh] overflow-hidden">
                 <img id="modalImg" src="" alt="Giày" class="w-full h-full object-contain">
             </div>
@@ -168,7 +168,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // FIREBASE CONFIG
+        // FIREBASE CONFIG BÉ XÍU
         const firebaseConfig = {
             apiKey: "AIzaSyCQczIrVe39Hs2d1bCt4OUgnOHK8NJFBq8",
             authDomain: "tiemgiaybexiu-c532a.firebaseapp.com",
@@ -181,8 +181,8 @@
         const db = getFirestore(app);
 
         let allProducts = [];
-        window.currentGenderTab = 'small'; 
-        window.currentFilter = '37';        
+        window.currentGenderTab = 'new'; // Mặc định mở web là MỚI VỀ
+        window.currentFilter = 'all';        
 
         window.showToast = function(message) {
             const toast = document.getElementById("toast");
@@ -193,28 +193,33 @@
 
         window.switchTab = function(tabName) {
             window.currentGenderTab = tabName;
-            const btnSmall = document.getElementById('tab-small');
-            const btnLarge = document.getElementById('tab-large');
+            
+            const tabs = ['new', 'small', 'large'];
+            const activeClass = "flex-1 py-2 px-1 rounded-xl font-black text-[11px] sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1";
+            const inactiveClass = "flex-1 py-2 px-1 rounded-xl font-extrabold text-[11px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1";
 
-            const activeClass = "flex-1 py-2.5 px-3 rounded-xl font-black text-xs sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1.5";
-            const inactiveClass = "flex-1 py-2.5 px-3 rounded-xl font-extrabold text-xs sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1.5";
+            tabs.forEach(t => {
+                document.getElementById('tab-' + t).className = (t === tabName) ? activeClass : inactiveClass;
+            });
 
-            if (tabName === 'small') {
-                btnSmall.className = activeClass;
-                btnLarge.className = inactiveClass;
+            if (tabName === 'new') {
+                window.currentFilter = 'all';
+                document.getElementById('storyFiltersContainer').style.display = 'none'; // Ẩn vòng tròn size
+            } else if (tabName === 'small') {
                 window.currentFilter = '37'; 
+                document.getElementById('storyFiltersContainer').style.display = 'block'; // Hiện vòng tròn size
             } else {
-                btnLarge.className = activeClass;
-                btnSmall.className = inactiveClass;
                 window.currentFilter = '40'; 
+                document.getElementById('storyFiltersContainer').style.display = 'block';
             }
+            
             window.renderFilters();
             window.renderProducts();
         }
 
         window.renderFilters = function() {
             const container = document.getElementById('storyFilters');
-            if (!container) return;
+            if (!container || window.currentGenderTab === 'new') return; // Không render khi ở tab Mới Về
             let html = '';
             
             const smallSizes = ['kid', '33', '34', '35', '36', '36.5', '37', '38', '39'];
@@ -227,9 +232,9 @@
                 let ringClass = isActive ? "story-ring-active" : "story-ring-inactive opacity-60 hover:opacity-100";
                 
                 html += `
-                    <div class="flex flex-col items-center cursor-pointer min-w-[60px]" onclick="applyFilter('${size}')">
+                    <div class="flex flex-col items-center cursor-pointer min-w-[50px] sm:min-w-[60px]" onclick="applyFilter('${size}')">
                         <div class="${ringClass} transition-opacity">
-                            <div class="w-[56px] h-[56px] bg-white rounded-full flex items-center justify-center font-bold text-[13px] text-black">
+                            <div class="w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] bg-white rounded-full flex items-center justify-center font-bold text-[12px] sm:text-[13px] text-black">
                                 ${display}
                             </div>
                         </div>
@@ -260,7 +265,6 @@
                 const data = docSnap.data();
                 if (data.status === 'available' || !data.status || !data.isSold) {
                     const imgUrl = data.imageUrl || (data.images && data.images[0]) || '';
-                    // Chỉ lấy những file up thành công có imageUrl
                     if(imgUrl && imgUrl.startsWith('http')) {
                         allProducts.push({ id: docSnap.id, ...data, imageUrl: imgUrl });
                     }
@@ -283,7 +287,6 @@
             }
         });
 
-        // Chỉ thêm param tối ưu WebP cho các link ImageKit
         window.getOptimizedImageUrl = function(url, width = 600) {
             if (!url) return '';
             if (url.includes('ik.imagekit.io') && !url.includes('tr=')) return `${url}?tr=w-${width},f-webp,q-85`;
@@ -295,26 +298,37 @@
             if (!container) return;
             container.innerHTML = '';
             
-            let filtered = allProducts.filter(p => {
-                let pSize = (p.size || '').toString().toLowerCase();
-                let cFilter = window.currentFilter.toString().toLowerCase();
-                if (cFilter === '36') return pSize === '36';
-                if (cFilter === '36.5') return pSize === '36.5';
-                return pSize.includes(cFilter);
-            });
+            let filtered = [];
+            if (window.currentGenderTab === 'new') {
+                // Tab mới về: Lấy 40 đôi đầu tiên (mới nhất), bỏ qua filter size
+                filtered = allProducts.slice(0, 40);
+            } else {
+                // Các tab khác: Filter theo size
+                filtered = allProducts.filter(p => {
+                    let pSize = (p.size || '').toString().toLowerCase();
+                    let cFilter = window.currentFilter.toString().toLowerCase();
+                    if (cFilter === '36') return pSize === '36';
+                    if (cFilter === '36.5') return pSize === '36.5';
+                    return pSize.includes(cFilter);
+                });
+            }
 
             if(filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center py-20 text-ig-gray"><i class="fas fa-camera text-4xl mb-3 opacity-20"></i><br>Chưa có giày ở size này</div>`;
+                container.innerHTML = `<div class="col-span-full text-center py-20 text-ig-gray"><i class="fas fa-camera text-4xl mb-3 opacity-20"></i><br>Chưa có giày ở mục này</div>`;
                 return;
             }
 
             filtered.forEach(p => {
                 const div = document.createElement('div');
-                // Ảnh sẽ tự động co giãn theo tỉ lệ gốc nhờ w-full h-auto
                 div.className = "cursor-pointer group flex flex-col bg-white border border-gray-100 overflow-hidden hover:shadow-sm transition-shadow rounded-md";
                 div.onclick = () => window.openModal(p);
+                
+                // Nút "NEW" đỏ chót ở góc nếu ở tab Mới Về
+                const newBadge = window.currentGenderTab === 'new' ? `<div class="absolute top-1 left-1 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm z-10">NEW</div>` : '';
+
                 div.innerHTML = `
                     <div class="w-full relative overflow-hidden bg-ig-bg flex-1 flex items-center justify-center">
+                        ${newBadge}
                         <img src="${window.getOptimizedImageUrl(p.imageUrl, 500)}" loading="lazy" class="w-full h-auto max-h-[300px] object-cover group-hover:scale-105 transition-transform duration-500" alt="Giày">
                     </div>
                     <div class="p-2.5 flex flex-col gap-1 border-t border-gray-50">
@@ -373,7 +387,6 @@
             const telegramBotToken = "8968912621:AAFKK2PQuPNqWLLer4_wkZf6PtY1ZzHV9RI";
             const chatId = "8511070091";
             
-            // Link Zalo Đã đổi
             const message = `🔥 YÊU CẦU TỪ WEB 🔥\n\n` +
                             `📞 SĐT: ${phone}\n` +
                             `👟 Size: ${currentItem.size || '---'}\n` +
@@ -382,7 +395,6 @@
                             `🔗 Nhắn Zalo: https://zalo.me/${phone}`;
 
             try {
-                // Lưu vào CSDL
                 await addDoc(collection(db, "orders"), {
                     size: currentItem.size || '',
                     price: Number(currentItem.price) || 0,
@@ -393,7 +405,6 @@
                     status: 'pending'
                 });
 
-                // Gửi Telegram (Sẽ gửi kèm link ảnh)
                 try {
                     await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
                         method: 'POST',
@@ -415,8 +426,9 @@
                 btn.disabled = false;
             }
         };
-
-        window.renderFilters();
+        
+        // Khởi chạy
+        window.switchTab('new');
     </script>
 </body>
 </html>
