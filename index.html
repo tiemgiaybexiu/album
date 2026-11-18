@@ -65,9 +65,11 @@
                     <div class="text-center md:text-left"><span class="font-bold text-base">100%</span><br><span class="text-ig-gray">chính hãng</span></div>
                 </div>
                 
-                <div class="text-sm font-medium mb-4 text-center md:text-left">
-                    <p class="font-bold">Giày 2hand Nữ & Học sinh</p>
-                    <p class="text-ig-gray text-xs mt-0.5">📍 117 Phạm Ngũ Lão, Thủ Dầu Một, Bình Dương</p>
+                <div class="text-sm font-medium mb-4 text-center md:text-left flex flex-col items-center md:items-start gap-1">
+                    <a href="https://tiemgiaycubd.github.io/album/" target="_blank" class="inline-block bg-pink-100 text-pink-700 hover:bg-pink-200 border border-pink-200 font-bold px-3 py-1.5 rounded-lg text-[11px] sm:text-xs transition-colors shadow-sm">
+                        Xem thêm giày tại Tiệm giày cũ Bình Dương
+                    </a>
+                    <p class="text-ig-gray text-xs mt-1.5">📍 117 Phạm Ngũ Lão, Thủ Dầu Một, Bình Dương</p>
                 </div>
                 
                 <div class="flex gap-2 w-full max-w-sm justify-center md:justify-start">
@@ -79,23 +81,23 @@
     </header>
 
     <!-- Khu vực Lọc Size & Tab -->
-    <div class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-ig-border shadow-sm">
+    <div class="bg-white border-b border-ig-border shadow-sm">
         <div class="max-w-4xl mx-auto px-3 pt-3 pb-2">
             
             <!-- 3 Tabs: Mới về, Size Nhỏ, Size Lớn -->
             <div class="max-w-lg mx-auto bg-gray-100 p-1.5 rounded-2xl flex gap-1.5 shadow-inner border border-gray-200">
-                <button onclick="switchTab('new')" id="tab-new" class="flex-1 py-2 px-1 rounded-xl font-black text-[11px] sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1">
+                <button onclick="switchTab('new')" id="tab-new" class="flex-1 py-2 px-1 rounded-xl font-black text-[10px] sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1">
                     <i class="fas fa-fire text-orange-500"></i> MỚI VỀ
                 </button>
-                <button onclick="switchTab('small')" id="tab-small" class="flex-1 py-2 px-1 rounded-xl font-extrabold text-[11px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1">
-                    👩 SIZE NHỎ
+                <button onclick="switchTab('small')" id="tab-small" class="flex-1 py-2 px-1 rounded-xl font-extrabold text-[10px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1">
+                    SIZE KID / 33 ĐẾN 39
                 </button>
-                <button onclick="switchTab('large')" id="tab-large" class="flex-1 py-2 px-1 rounded-xl font-extrabold text-[11px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1">
-                    👨 SIZE LỚN
+                <button onclick="switchTab('large')" id="tab-large" class="flex-1 py-2 px-1 rounded-xl font-extrabold text-[10px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1">
+                    SIZE 40 TRỞ LÊN
                 </button>
             </div>
 
-            <!-- Thanh chọn size vòng tròn (Sẽ bị ẩn khi ở tab Mới Về) -->
+            <!-- Thanh chọn size vòng tròn -->
             <div class="py-4 px-2" id="storyFiltersContainer" style="display: none;">
                 <div class="flex flex-wrap justify-center gap-4" id="storyFilters">
                     <!-- JS render Story Rings -->
@@ -161,6 +163,11 @@
         </div>
     </div>
 
+    <!-- Nút Lên đầu trang -->
+    <button id="backToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-black text-white w-10 h-10 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 opacity-0 pointer-events-none z-[45] hover:bg-gray-800 hover:-translate-y-1">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <div class="text-center py-10 mt-10"></div>
     <div id="toast"><span></span> <span id="toastMsg"></span></div>
 
@@ -184,6 +191,20 @@
         window.currentGenderTab = 'new'; // Mặc định mở web là MỚI VỀ
         window.currentFilter = 'all';        
 
+        // Lắng nghe sự kiện cuộn trang để hiện nút Back to Top
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('backToTopBtn');
+            if(btn) {
+                if (window.scrollY > 300) {
+                    btn.classList.remove('opacity-0', 'pointer-events-none');
+                    btn.classList.add('opacity-100', 'pointer-events-auto');
+                } else {
+                    btn.classList.add('opacity-0', 'pointer-events-none');
+                    btn.classList.remove('opacity-100', 'pointer-events-auto');
+                }
+            }
+        });
+
         window.showToast = function(message) {
             const toast = document.getElementById("toast");
             document.getElementById("toastMsg").innerText = message;
@@ -195,8 +216,8 @@
             window.currentGenderTab = tabName;
             
             const tabs = ['new', 'small', 'large'];
-            const activeClass = "flex-1 py-2 px-1 rounded-xl font-black text-[11px] sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1";
-            const inactiveClass = "flex-1 py-2 px-1 rounded-xl font-extrabold text-[11px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1";
+            const activeClass = "flex-1 py-2 px-1 rounded-xl font-black text-[10px] sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1";
+            const inactiveClass = "flex-1 py-2 px-1 rounded-xl font-extrabold text-[10px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1";
 
             tabs.forEach(t => {
                 document.getElementById('tab-' + t).className = (t === tabName) ? activeClass : inactiveClass;
