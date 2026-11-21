@@ -24,82 +24,99 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
+        .ig-gradient-ring {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
         .story-ring-active {
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-            padding: 2.5px; border-radius: 50%;
+            padding: 2px;
+            border-radius: 50%;
         }
-        .story-ring-inactive { background: #dbdbdb; padding: 1.5px; border-radius: 50%; }
+        .story-ring-inactive {
+            border: 1px solid #e5e7eb;
+            padding: 2px;
+            border-radius: 50%;
+        }
 
         #toast {
-            visibility: hidden; min-width: 250px; background-color: #262626; color: #fff;
-            text-align: center; border-radius: 8px; padding: 12px 20px; position: fixed;
+            visibility: hidden; min-width: 250px; background-color: #111111; color: #ffffff;
+            text-align: center; border-radius: 9999px; padding: 12px 20px; position: fixed;
             z-index: 9999; left: 50%; transform: translateX(-50%); top: 30px; font-size: 13px; font-weight: 600;
-            box-shadow: 0px 8px 24px rgba(0,0,0,0.15); opacity: 0; transition: opacity 0.3s, top 0.3s;
+            box-shadow: 0px 8px 24px rgba(0,0,0,0.18); opacity: 0; transition: opacity 0.3s, top 0.3s;
         }
         #toast.show { visibility: visible; top: 50px; opacity: 1; }
     </style>
 </head>
-<body class="pb-20">
+<body class="bg-[#fafafa] text-[#262626] pb-20">
 
-    <!-- Header Hồ sơ -->
-    <header class="bg-white pt-6 pb-4 px-4 border-b border-ig-border relative">
-        <a href="https://tiemgiaybexiu.github.io/admin/" class="absolute top-4 right-4 text-ig-gray hover:text-black transition">
+    <!-- Header Hồ sơ chuẩn Instagram -->
+    <header class="bg-white pt-6 pb-5 px-4 border-b border-gray-100 relative">
+        <a href="https://tiemgiaybexiu.github.io/admin/" class="absolute top-4 right-4 text-gray-500 hover:text-black transition p-2 rounded-full hover:bg-gray-100">
             <i class="fas fa-bars text-xl"></i>
         </a>
 
-        <div class="max-w-2xl mx-auto flex flex-col md:flex-row items-center gap-5 md:gap-8">
-            <div class="story-ring-active shrink-0">
-                <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white p-0.5 relative">
+        <div class="max-w-2xl mx-auto flex flex-col md:flex-row items-center gap-5 md:gap-9">
+            <div class="ig-gradient-ring p-[2.5px] rounded-full shrink-0">
+                <div class="w-20 h-20 md:w-28 md:h-28 rounded-full bg-white p-[2.5px] overflow-hidden relative">
                     <img src="https://i.ibb.co/svCGqf0w/Gemini-Generated-Image-5b2r4l5b2r4l5b2r.png" alt="Avatar" class="w-full h-full rounded-full object-cover">
                 </div>
             </div>
             
             <div class="flex flex-col items-center md:items-start flex-1 w-full">
-                <div class="flex items-center gap-2 mb-3">
-                    <h1 class="text-xl font-bold tracking-tight">tiemgiay.bexiu</h1>
-                    <i class="fas fa-certificate text-blue-500 text-sm" title="Đã xác minh"></i>
+                <div class="flex items-center gap-1.5 mb-2.5">
+                    <h1 class="text-xl font-bold tracking-tight text-gray-900">tiemgiay.bexiu</h1>
+                    <i class="fas fa-check-circle text-[#0095f6] text-sm" title="Đã xác minh"></i>
                 </div>
                 
-                <div class="flex gap-6 mb-3 text-sm">
-                    <div class="text-center md:text-left"><span class="font-bold text-base" id="totalShoes">0</span><br><span class="text-ig-gray">giày sẵn có</span></div>
-                    <div class="text-center md:text-left"><span class="font-bold text-base">100%</span><br><span class="text-ig-gray">chính hãng</span></div>
+                <div class="flex gap-8 mb-3 text-sm">
+                    <div class="text-center md:text-left">
+                        <span class="font-bold text-base text-gray-900" id="totalShoes">0</span>
+                        <span class="text-gray-500 block md:inline md:ml-1 text-xs md:text-sm">giày sẵn có</span>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <span class="font-bold text-base text-gray-900">100%</span>
+                        <span class="text-gray-500 block md:inline md:ml-1 text-xs md:text-sm">chính hãng</span>
+                    </div>
+                </div>
+
+                <div class="text-sm mb-3.5 text-center md:text-left">
+                    <p class="text-gray-500 text-xs"><i class="fas fa-map-marker-alt text-red-400 mr-1"></i>117 Phạm Ngũ Lão, Thủ Dầu Một, Bình Dương</p>
                 </div>
                 
-                <div class="text-sm font-medium mb-4 text-center md:text-left flex flex-col items-center md:items-start gap-1">
-                    <a href="https://tiemgiaycubd.github.io/album/" target="_blank" class="inline-block bg-pink-100 text-pink-700 hover:bg-pink-200 border border-pink-200 font-bold px-3 py-1.5 rounded-lg text-[11px] sm:text-xs transition-colors shadow-sm">
-                        Xem thêm giày tại Tiệm giày cũ Bình Dương
+                <div class="w-full max-w-sm flex flex-col gap-2">
+                    <div class="flex gap-2 w-full">
+                        <a href="https://zalo.me/0378155320" target="_blank" class="flex-1 bg-[#efefef] hover:bg-[#dbdbdb] text-gray-900 text-center font-semibold text-[13px] py-2 rounded-lg transition-colors">Nhắn Zalo</a>
+                        <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="flex-1 bg-[#efefef] hover:bg-[#dbdbdb] text-gray-900 text-center font-semibold text-[13px] py-2 rounded-lg transition-colors">Facebook Tiệm</a>
+                    </div>
+                    <a href="https://tiemgiaycubd.github.io/album/" target="_blank" class="w-full bg-[#111111] hover:bg-gray-800 text-white font-semibold text-[13px] py-2.5 px-4 rounded-lg shadow-sm flex items-center justify-center gap-1.5 transition active:scale-[0.99]">
+                        <span>Xem thêm giày tại Tiệm giày cũ Bình Dương</span>
+                        <i class="fas fa-arrow-up-right-from-square text-[11px]"></i>
                     </a>
-                    <p class="text-ig-gray text-xs mt-1.5">📍 117 Phạm Ngũ Lão, Thủ Dầu Một, Bình Dương</p>
-                </div>
-                
-                <div class="flex gap-2 w-full max-w-sm justify-center md:justify-start">
-                    <a href="https://zalo.me/0378155320" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Nhắn Zalo</a>
-                    <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="flex-1 bg-gray-100 hover:bg-gray-200 text-center font-semibold text-[13px] py-1.5 rounded-lg transition-colors">Facebook Tiệm</a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Khu vực Lọc Size & Tab -->
-    <div class="bg-white border-b border-ig-border shadow-sm">
-        <div class="max-w-4xl mx-auto px-3 pt-3 pb-2">
+    <!-- Khu vực Lọc Size & Tab kiểu cũ -->
+    <div class="bg-white border-b border-gray-100 py-3">
+        <div class="max-w-4xl mx-auto px-3">
             
-            <!-- 3 Tabs: Mới về, Size Nhỏ, Size Lớn -->
-            <div class="max-w-lg mx-auto bg-gray-100 p-1.5 rounded-2xl flex gap-1.5 shadow-inner border border-gray-200">
-                <button onclick="switchTab('new')" id="tab-new" class="flex-1 py-2 px-1 rounded-xl font-black text-[10px] sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1">
-                    <i class="fas fa-fire text-orange-500"></i> MỚI VỀ
+            <!-- 3 Tabs Segmented Pill -->
+            <div class="bg-gray-100 p-1 rounded-2xl flex max-w-lg mx-auto">
+                <button onclick="switchTab('new')" id="tab-new" class="flex-1 py-2 px-2 text-[11px] sm:text-xs font-bold rounded-xl bg-black text-white shadow-sm transition-all text-center">
+                    🔥 MỚI VỀ
                 </button>
-                <button onclick="switchTab('small')" id="tab-small" class="flex-1 py-2 px-1 rounded-xl font-extrabold text-[10px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1">
+                <button onclick="switchTab('small')" id="tab-small" class="flex-1 py-2 px-1 text-[10px] sm:text-xs font-bold rounded-xl text-gray-500 hover:text-gray-800 transition-all text-center">
                     SIZE KID / 33 ĐẾN 39
                 </button>
-                <button onclick="switchTab('large')" id="tab-large" class="flex-1 py-2 px-1 rounded-xl font-extrabold text-[10px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1">
+                <button onclick="switchTab('large')" id="tab-large" class="flex-1 py-2 px-1 text-[10px] sm:text-xs font-bold rounded-xl text-gray-500 hover:text-gray-800 transition-all text-center">
                     SIZE 40 TRỞ LÊN
                 </button>
             </div>
 
-            <!-- Thanh chọn size vòng tròn -->
-            <div class="py-4 px-2" id="storyFiltersContainer" style="display: none;">
-                <div class="flex flex-wrap justify-center gap-4" id="storyFilters">
+            <!-- Thanh chọn size vòng tròn Highlight Instagram -->
+            <div class="pt-4 pb-1 px-1" id="storyFiltersContainer" style="display: none;">
+                <div class="flex flex-wrap justify-center gap-3 sm:gap-4" id="storyFilters">
                     <!-- JS render Story Rings -->
                 </div>
             </div>
@@ -108,54 +125,54 @@
     </div>
 
     <!-- Lưới Sản Phẩm -->
-    <main class="max-w-4xl mx-auto px-1 pt-2">
-        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 gap-1.5 sm:gap-2">
-            <div class="col-span-full text-center py-20 text-ig-gray">
-                <i class="fas fa-circle-notch fa-spin text-2xl mb-2"></i>
+    <main class="max-w-4xl mx-auto px-2.5 sm:px-4 pt-4">
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4">
+            <div class="col-span-full text-center py-20 text-gray-400">
+                <i class="fas fa-circle-notch fa-spin text-2xl mb-2 text-gray-700"></i>
                 <p class="text-sm">Đang tải kệ giày...</p>
             </div>
         </div>
     </main>
 
-    <!-- Modal Unified Card Chốt Đơn Tối Giản -->
+    <!-- Modal Unified Card Chốt Đơn -->
     <div id="orderModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 transition-opacity">
-        <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto rounded-2xl no-scrollbar shadow-2xl relative flex flex-col">
+        <div class="bg-white w-full max-w-md max-h-[90vh] overflow-y-auto rounded-3xl no-scrollbar shadow-2xl relative flex flex-col">
             
-            <button onclick="closeModal()" class="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white w-8 h-8 rounded-full flex items-center justify-center z-20 hover:bg-black/70 transition">
+            <button onclick="closeModal()" class="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white w-8 h-8 rounded-full flex items-center justify-center z-20 hover:bg-black transition">
                 <i class="fas fa-times"></i>
             </button>
             
-            <div class="w-full bg-gray-100 flex items-center justify-center min-h-[250px] max-h-[60vh] overflow-hidden">
+            <div class="w-full bg-gray-50 flex items-center justify-center min-h-[250px] max-h-[60vh] overflow-hidden border-b border-gray-100">
                 <img id="modalImg" src="" alt="Giày" class="w-full h-full object-contain">
             </div>
             
             <div class="p-5 bg-white">
                 <div class="mb-3">
                     <div class="flex justify-between items-baseline">
-                        <h2 class="text-xl font-bold tracking-tight text-black" id="modalPrice"></h2>
-                        <div class="text-xs text-ig-gray font-medium">
-                            <span class="text-black font-semibold">Size <span id="modalSize"></span></span> • <span id="modalCmInfo"></span>
+                        <h2 class="text-2xl font-bold tracking-tight text-gray-900" id="modalPrice"></h2>
+                        <div class="text-xs text-gray-500 font-medium">
+                            <span class="text-pink-600 font-bold">Size <span id="modalSize"></span></span> • <span id="modalCmInfo"></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="mb-4 pt-3 border-t border-gray-100">
-                    <p class="text-xs text-gray-500 font-medium mb-2 flex items-center gap-1.5">
+                    <p class="text-xs text-gray-500 font-semibold mb-2 flex items-center gap-1.5">
                         <i class="fas fa-camera text-gray-400"></i> Xin thêm ảnh:
                     </p>
                     <div class="grid grid-cols-2 gap-2">
-                        <a href="https://zalo.me/0378155320" target="_blank" class="py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold text-xs flex items-center justify-center gap-1.5 transition text-center shadow-sm">
+                        <a href="https://zalo.me/0378155320" target="_blank" class="py-2.5 px-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-100 font-semibold text-xs flex items-center justify-center gap-1.5 transition text-center">
                             <i class="fas fa-comment-dots text-sm"></i> Nhắn tin Zalo
                         </a>
-                        <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="py-2.5 px-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs flex items-center justify-center gap-1.5 transition text-center shadow-sm">
+                        <a href="https://www.facebook.com/profile.php?id=61595679246797" target="_blank" class="py-2.5 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border border-indigo-100 font-semibold text-xs flex items-center justify-center gap-1.5 transition text-center">
                             <i class="fab fa-facebook-messenger text-sm"></i> Nhắn tin Facebook
                         </a>
                     </div>
                 </div>
                 
                 <div class="relative">
-                    <input type="tel" id="customerPhone" placeholder="Nhập SĐT để Shop tư vấn/chốt đơn..." class="w-full bg-gray-50 border border-ig-border rounded-xl pl-4 pr-[80px] py-3 text-sm focus:outline-none focus:border-gray-400 transition-colors">
-                    <button id="btnSubmitOrder" onclick="submitOrder()" class="absolute right-1 top-1 bottom-1 bg-black text-white font-semibold px-4 rounded-lg hover:bg-gray-800 transition text-xs">
+                    <input type="tel" id="customerPhone" placeholder="Nhập SĐT để Shop tư vấn/chốt đơn..." class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-4 pr-[80px] py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-900 transition-colors">
+                    <button id="btnSubmitOrder" onclick="submitOrder()" class="absolute right-1.5 top-1.5 bottom-1.5 bg-gray-900 text-white font-bold px-4 rounded-lg hover:bg-black transition text-xs">
                         Gửi
                     </button>
                 </div>
@@ -216,8 +233,8 @@
             window.currentGenderTab = tabName;
             
             const tabs = ['new', 'small', 'large'];
-            const activeClass = "flex-1 py-2 px-1 rounded-xl font-black text-[10px] sm:text-sm text-center transition-all bg-black text-white shadow-md flex items-center justify-center gap-1";
-            const inactiveClass = "flex-1 py-2 px-1 rounded-xl font-extrabold text-[10px] sm:text-sm text-center transition-all text-gray-500 hover:text-black flex items-center justify-center gap-1";
+            const activeClass = "flex-1 py-2 px-1 sm:px-2 text-[10px] sm:text-xs font-bold rounded-xl bg-black text-white shadow-sm transition-all text-center";
+            const inactiveClass = "flex-1 py-2 px-1 sm:px-2 text-[10px] sm:text-xs font-bold rounded-xl text-gray-500 hover:text-gray-800 transition-all text-center";
 
             tabs.forEach(t => {
                 document.getElementById('tab-' + t).className = (t === tabName) ? activeClass : inactiveClass;
@@ -250,12 +267,13 @@
             activeSizes.forEach(size => {
                 let display = size === 'kid' ? 'KID' : size;
                 let isActive = window.currentFilter === size;
-                let ringClass = isActive ? "story-ring-active" : "story-ring-inactive opacity-60 hover:opacity-100";
+                let ringClass = isActive ? "story-ring-active shadow-sm" : "story-ring-inactive hover:border-gray-400";
+                let innerClass = isActive ? "bg-white text-gray-900 font-bold" : "bg-white text-gray-600 font-medium hover:bg-gray-50";
                 
                 html += `
-                    <div class="flex flex-col items-center cursor-pointer min-w-[50px] sm:min-w-[60px]" onclick="applyFilter('${size}')">
-                        <div class="${ringClass} transition-opacity">
-                            <div class="w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] bg-white rounded-full flex items-center justify-center font-bold text-[12px] sm:text-[13px] text-black">
+                    <div class="flex flex-col items-center cursor-pointer min-w-[48px] sm:min-w-[54px]" onclick="applyFilter('${size}')">
+                        <div class="${ringClass} transition-all">
+                            <div class="w-[44px] h-[44px] sm:w-[50px] sm:h-[50px] ${innerClass} rounded-full flex items-center justify-center text-[12px] sm:text-[13px] transition-colors">
                                 ${display}
                             </div>
                         </div>
@@ -341,22 +359,20 @@
 
             filtered.forEach(p => {
                 const div = document.createElement('div');
-                div.className = "cursor-pointer group flex flex-col bg-white border border-gray-100 overflow-hidden hover:shadow-sm transition-shadow rounded-md";
+                div.className = "cursor-pointer group flex flex-col bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all";
                 div.onclick = () => window.openModal(p);
                 
-                // Nút "NEW" đỏ chót ở góc nếu ở tab Mới Về
-                const newBadge = window.currentGenderTab === 'new' ? `<div class="absolute top-1 left-1 bg-red-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm z-10">NEW</div>` : '';
+                // Nhãn "NEW" ở góc nếu ở tab Mới Về
+                const newBadge = window.currentGenderTab === 'new' ? `<div class="absolute top-2 left-2 bg-black/75 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-10">MỚI</div>` : '';
 
                 div.innerHTML = `
-                    <div class="w-full relative overflow-hidden bg-ig-bg flex-1 flex items-center justify-center">
+                    <div class="w-full relative overflow-hidden bg-gray-50 flex-1 flex items-center justify-center">
                         ${newBadge}
-                        <img src="${window.getOptimizedImageUrl(p.imageUrl, 500)}" loading="lazy" class="w-full h-auto max-h-[300px] object-cover group-hover:scale-105 transition-transform duration-500" alt="Giày">
+                        <img src="${window.getOptimizedImageUrl(p.imageUrl, 500)}" loading="lazy" class="w-full h-auto max-h-[300px] object-cover group-hover:scale-[1.02] transition-transform duration-300" alt="Giày">
                     </div>
-                    <div class="p-2.5 flex flex-col gap-1 border-t border-gray-50">
-                        <div class="flex justify-between items-center">
-                            <span class="text-[10px] font-bold bg-gray-100 px-2 py-0.5 rounded-full text-gray-800">Size ${p.size || ''}</span>
-                        </div>
-                        <div class="font-bold text-[14px] text-black mt-0.5">${(Number(p.price) || 0).toLocaleString('vi-VN')}đ</div>
+                    <div class="p-2.5 sm:p-3 bg-white">
+                        <div class="text-[11px] font-medium text-gray-500 mb-0.5">Size ${p.size || ''}</div>
+                        <div class="font-bold text-sm sm:text-[15px] text-gray-900">${(Number(p.price) || 0).toLocaleString('vi-VN')}đ</div>
                     </div>
                 `;
                 container.appendChild(div);
